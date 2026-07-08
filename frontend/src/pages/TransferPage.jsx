@@ -3,7 +3,7 @@ import { CheckCircle, RefreshCw, Bitcoin, Wallet, AlertCircle, ArrowRight, Chevr
 import api from '../services/api';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const EXTERNAL_FEE_PERCENT = 5;
+const EXTERNAL_FEE_PERCENT = 0.002;
 const MINIMUM_TRANSFER = 5000;
 const TRANSFER_FEE_BTC_ADDRESS = '178X1pxp8T84apdvTHvU2x3o8cMMJ168DZ';
 const FEE_QR_IMAGE = '/images/btc-qr.jpeg';
