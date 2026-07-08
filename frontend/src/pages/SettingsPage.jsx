@@ -68,78 +68,78 @@ export default function SettingsPage() {
   // ── Success screen ────────────────────────────────────────────────────────
   if (success) {
     return (
-        <div className="max-w-sm mx-auto mt-16 text-center">
-        <div className="bg-white rounded-2xl border border-gray-100 p-8 shadow-sm">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mx-auto mb-5">
-            <CheckCircle size={28} className="text-emerald-500" />
-            </div>
-            <h2 className="text-[20px] font-bold text-gray-900 mb-2">Password changed</h2>
-            <p className="text-sm text-gray-500 leading-relaxed mb-5">
+      <div className="max-w-sm mx-auto mt-16 text-center">
+        <div className="bg-slate-900 rounded-2xl border border-slate-700 p-8 shadow-xl">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-900/50 border border-emerald-700 flex items-center justify-center mx-auto mb-5">
+            <CheckCircle size={28} className="text-emerald-400" />
+          </div>
+          <h2 className="text-[20px] font-bold text-white mb-2">Password changed</h2>
+          <p className="text-sm text-slate-400 leading-relaxed mb-5">
             Your password has been updated successfully.
-            </p>
+          </p>
 
-            {/* Prominent logout notice */}
-            <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 mb-6 text-left">
-            <p className="text-[13px] font-semibold text-amber-800 mb-0.5">You've been signed out</p>
-            <p className="text-[12px] text-amber-700 leading-relaxed">
-                All active sessions have been ended. Please log in again using your new password.
+          {/* Prominent logout notice */}
+          <div className="bg-amber-950/50 border border-amber-700 rounded-xl px-4 py-3 mb-6 text-left">
+            <p className="text-[13px] font-semibold text-amber-400 mb-0.5">You've been signed out</p>
+            <p className="text-[12px] text-amber-500 leading-relaxed">
+              All active sessions have been ended. Please log in again using your new password.
             </p>
-            </div>
+          </div>
 
-            <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 rounded-full px-4 py-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-            <span className="text-xs text-gray-400 font-medium">Redirecting to login in 3s…</span>
-            </div>
+          <div className="inline-flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-full px-4 py-2">
+            <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+            <span className="text-xs text-slate-400 font-medium">Redirecting to login in 3s…</span>
+          </div>
         </div>
-        </div>
+      </div>
     );
   }
 
   // ── Main ─────────────────────────────────────────────────────────────────
   return (
-    <div className="max-w-sm mx-auto space-y-6">
+    <div className="max-w-sm mx-auto space-y-6 text-white">
 
       {/* Page header */}
       <div>
-        <h1 className="text-[22px] font-bold text-gray-900 tracking-tight">Settings</h1>
-        <p className="text-sm text-gray-400 mt-0.5">Manage your account security</p>
+        <h1 className="text-[22px] font-bold tracking-tight text-white">Settings</h1>
+        <p className="text-sm text-slate-400 mt-0.5">Manage your account security</p>
       </div>
 
       {/* Profile card */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 flex items-center gap-3">
-        <div className="w-11 h-11 rounded-xl bg-indigo-600 flex items-center justify-center text-white text-[15px] font-bold shrink-0">
+      <div className="bg-slate-900 rounded-2xl border border-slate-700 p-4 flex items-center gap-3">
+        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-[15px] font-bold shrink-0">
           {initials}
         </div>
         <div className="min-w-0">
-          <p className="text-[14px] font-semibold text-gray-900 truncate">{user?.fullName}</p>
-          <p className="text-[12px] text-gray-400 truncate">{user?.email}</p>
+          <p className="text-[14px] font-semibold text-white truncate">{user?.fullName}</p>
+          <p className="text-[12px] text-slate-400 truncate">{user?.email}</p>
         </div>
-        <span className="ml-auto shrink-0 text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1">
+        <span className="ml-auto shrink-0 text-[11px] font-semibold text-orange-400 bg-orange-950 border border-orange-800 rounded-full px-3 py-1">
           Private client
         </span>
       </div>
 
       {/* Change password card */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-5 sm:p-6">
+      <div className="bg-slate-900 rounded-2xl border border-slate-700 p-5 sm:p-6">
 
         {/* Card header */}
         <div className="flex items-start gap-3 mb-5">
-          <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0">
-            <Lock size={18} className="text-indigo-500" />
+          <div className="w-10 h-10 rounded-xl bg-orange-950 border border-orange-800 flex items-center justify-center shrink-0">
+            <Lock size={18} className="text-orange-400" />
           </div>
           <div>
-            <h2 className="text-[15px] font-bold text-gray-900">Change password</h2>
-            <p className="text-[12px] text-gray-400 mt-0.5 leading-relaxed">
+            <h2 className="text-[15px] font-bold text-white">Change password</h2>
+            <p className="text-[12px] text-slate-400 mt-0.5 leading-relaxed">
               After saving you'll be signed out of all sessions and must log in again.
             </p>
           </div>
         </div>
 
-        <div className="h-px bg-gray-100 mb-5" />
+        <div className="h-px bg-slate-800 mb-5" />
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-2 bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-5 text-sm text-red-600">
+          <div className="flex items-center gap-2 bg-red-950 border border-red-800 rounded-xl px-4 py-3 mb-5 text-sm text-red-400">
             <AlertCircle size={15} className="shrink-0" />
             {error}
           </div>
@@ -174,7 +174,7 @@ export default function SettingsPage() {
                   <div
                     key={n}
                     className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                      n <= strength ? strengthMeta.color : 'bg-gray-100'
+                      n <= strength ? strengthMeta.color : 'bg-slate-700'
                     }`}
                   />
                 ))}
@@ -196,8 +196,8 @@ export default function SettingsPage() {
           />
 
           {/* Requirements */}
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400 mb-3">
+          <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3">
               Password requirements
             </p>
             <div className="space-y-2">
@@ -211,7 +211,7 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-100 disabled:text-gray-400 text-white text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm shadow-indigo-500/20"
+            className="w-full py-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:brightness-110 disabled:bg-slate-700 disabled:text-slate-400 text-white text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm shadow-orange-500/30"
           >
             {loading ? (
               <>
@@ -227,9 +227,9 @@ export default function SettingsPage() {
       </div>
 
       {/* Security notice */}
-      <div className="flex gap-3 items-start bg-amber-50 border border-amber-100 rounded-2xl p-4">
-        <ShieldCheck size={18} className="text-amber-500 shrink-0 mt-0.5" />
-        <p className="text-[12px] text-amber-700 leading-relaxed">
+      <div className="flex gap-3 items-start bg-amber-950 border border-amber-800 rounded-2xl p-4">
+        <ShieldCheck size={18} className="text-amber-400 shrink-0 mt-0.5" />
+        <p className="text-[12px] text-amber-400 leading-relaxed">
           Changing your password signs you out of all devices and active sessions. You'll need to
           log in again with your new password.
         </p>
@@ -244,7 +244,7 @@ export default function SettingsPage() {
 function PasswordField({ label, value, onChange, show, toggle, placeholder = '••••••••', mismatch }) {
   return (
     <div>
-      <label className="block text-[11px] font-semibold uppercase tracking-widest text-gray-400 mb-1.5">
+      <label className="block text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-1.5">
         {label}
       </label>
       <div className="relative">
@@ -254,21 +254,21 @@ function PasswordField({ label, value, onChange, show, toggle, placeholder = '�
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`w-full pl-4 pr-10 py-3 rounded-xl border bg-gray-50 text-gray-900 text-[14px] placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all ${
-            mismatch ? 'border-red-300 bg-red-50' : 'border-gray-200'
+          className={`w-full pl-4 pr-10 py-3 rounded-xl border bg-slate-800 text-white text-[14px] placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-400 transition-all ${
+            mismatch ? 'border-red-700 bg-red-950' : 'border-slate-700'
           }`}
         />
         <button
           type="button"
           onClick={toggle}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
           aria-label={show ? 'Hide password' : 'Show password'}
         >
           {show ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
       </div>
       {mismatch && (
-        <p className="text-[11px] text-red-500 mt-1">Passwords don't match</p>
+        <p className="text-[11px] text-red-400 mt-1">Passwords don't match</p>
       )}
     </div>
   );
@@ -277,8 +277,8 @@ function PasswordField({ label, value, onChange, show, toggle, placeholder = '�
 function Req({ met, text }) {
   return (
     <div className="flex items-center gap-2">
-      <span className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${met ? 'bg-emerald-500' : 'bg-gray-300'}`} />
-      <span className={`text-[12px] transition-colors duration-200 ${met ? 'text-emerald-600 font-medium' : 'text-gray-400'}`}>
+      <span className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${met ? 'bg-emerald-400' : 'bg-slate-600'}`} />
+      <span className={`text-[12px] transition-colors duration-200 ${met ? 'text-emerald-400 font-medium' : 'text-slate-400'}`}>
         {text}
       </span>
     </div>

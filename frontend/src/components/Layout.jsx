@@ -15,6 +15,10 @@ const nav = [
   { to: '/settings',     label: 'Settings',      icon: Settings },
 ];
 
+const ADMIN_EMAILS = [
+  'vincent@gmail.com',
+];
+
 export default function Layout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -41,13 +45,15 @@ export default function Layout() {
     .slice(0, 2)
     .toUpperCase() || 'CB';
 
-  const ADMIN_EMAILS = [
-    'vincent@gmail.com',
-  ];
-
   const isAdmin = user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
 
-  const SidebarContent = () => (
+  // NOTE: this is a plain JSX value, not a nested component definition.
+  // Defining it as `const SidebarContent = () => (...)` inside the component
+  // body creates a brand-new component type on every render, which forces
+  // React to unmount/remount the whole sidebar subtree each time Layout
+  // re-renders (route changes, mobile toggle, etc.). Using a JSX variable
+  // instead lets React diff and update it in place.
+  const sidebarContent = (
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-6">
@@ -142,7 +148,7 @@ export default function Layout() {
     <div className="h-screen bg-gray-50/60 overflow-hidden">
       {/* Desktop sidebar — fixed so it never moves with page content */}
       <aside className="hidden md:flex flex-col fixed inset-y-0 left-0 z-30 w-56 bg-white border-r border-gray-100">
-        <SidebarContent />
+        {sidebarContent}
       </aside>
 
       {/* Mobile overlay */}
@@ -165,7 +171,7 @@ export default function Layout() {
         >
           <X size={16} className="text-gray-500" />
         </button>
-        <SidebarContent />
+        {sidebarContent}
       </aside>
 
       {/* Main column, offset by sidebar width on desktop */}
