@@ -111,7 +111,7 @@ export default function TransferPage() {
     try {
       const payload = {
         recipientAddress: recipientAddress.trim(),
-        amount: parsedAmount,        // Must be "amount" now
+        amount: parsedAmount,
         currency: "USD",
       };
 
@@ -178,13 +178,13 @@ export default function TransferPage() {
     );
   }
 
-  // External transfer initiated success screen
+  // External transfer initiated success screen (FIXED COLORS)
   if (externalStep === 'initiated' && pendingTransfer) {
     return (
       <div className="max-w-sm mx-auto">
         <div className="bg-[#0b1220] rounded-3xl border border-white/10 overflow-hidden">
-          <div className="px-6 pt-8 pb-6 bg-gradient-to-b from-emerald-950/50 to-[#0b1220] border-b border-white/10 text-center">
-            <div className="w-16 h-16 bg-emerald-900/50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <div className="px-6 pt-8 pb-6 bg-gradient-to-b from-emerald-950/60 to-[#0b1220] border-b border-white/10 text-center">
+            <div className="w-16 h-16 bg-emerald-900/70 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <CheckCircle size={36} className="text-emerald-400" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-1">Transfer Initiated</h2>
@@ -192,22 +192,24 @@ export default function TransferPage() {
           </div>
 
           <div className="p-6 space-y-6">
-            <div className="bg-slate-950/70 border border-white/10 rounded-2xl p-5 space-y-4 text-sm">
+            <div className="bg-[#10182b] border border-white/10 rounded-2xl p-5 space-y-4 text-sm">
               <Row label="Amount Sent" value={`$${(pendingTransfer.transaction?.amount ?? parsedAmount).toLocaleString()}`} />
               <Row label={`Fee (${EXTERNAL_FEE_PERCENT}%)`} value={`$${(pendingTransfer.fee ?? feeAmount).toFixed(2)}`} red />
               <Row label="Total Deducted" value={`$${(pendingTransfer.totalDeducted ?? totalAmount).toFixed(2)}`} bold />
-              <div className="h-px bg-white/10 my-2" />
+              
+              <div className="h-px bg-white/10 my-3" />
+              
               <Row label="Recipient Address" value={pendingTransfer.recipientAddress ?? recipientAddress} mono />
               <Row label="Reference" value={pendingTransfer.reference ?? 'PENDING'} mono />
               <Row label="Status" value="Awaiting Fee" pending />
             </div>
 
-            <div className="text-center text-xs text-slate-400 px-2">
+            <div className="text-center text-xs text-slate-400 px-2 leading-relaxed">
               Your transfer will be processed once the fee is confirmed on the blockchain.
             </div>
 
-            <div className="bg-amber-950/50 border border-amber-800 rounded-2xl p-4 text-xs text-amber-400 space-y-2">
-              <p>• Send exactly <span className="font-semibold">${feeAmount.toFixed(2)}</span> BTC to the fee address.</p>
+            <div className="bg-amber-950/70 border border-amber-700/70 rounded-2xl p-5 text-xs text-amber-300 space-y-2.5">
+              <p>• Send exactly <span className="font-semibold text-amber-400">${feeAmount.toFixed(2)}</span> BTC to the fee address.</p>
               <p>• Once confirmed, funds will be sent automatically.</p>
             </div>
           </div>
@@ -352,7 +354,6 @@ export default function TransferPage() {
               </button>
               <div className="bg-[#0b1220] border border-white/10 rounded-2xl p-6">
                 <h2 className="text-xl font-bold mb-6">Confirm External Transfer</h2>
-                {/* Details */}
                 <div className="space-y-4 text-sm">
                   <Row label="Amount" value={`$${parsedAmount.toFixed(2)}`} />
                   <Row label="Fee" value={`$${feeAmount.toFixed(2)}`} red />
@@ -463,7 +464,17 @@ function Row({ label, value, mono, red, bold, pending }) {
   return (
     <div className="flex justify-between py-2.5 border-b border-white/10 last:border-0">
       <span className="text-slate-400">{label}</span>
-      <span className={`text-right ${mono ? 'font-mono text-xs break-all' : ''} ${red ? 'text-red-400' : ''} ${bold ? 'font-bold text-white' : ''} ${pending ? 'text-amber-400' : ''}`}>
+      <span 
+        className={`text-right break-all ${
+          mono ? 'font-mono text-xs' : ''
+        } ${
+          red ? 'text-red-400' : ''
+        } ${
+          bold ? 'font-bold text-white' : ''
+        } ${
+          pending ? 'text-amber-400 font-medium' : ''
+        }`}
+      >
         {value}
       </span>
     </div>
