@@ -331,6 +331,18 @@ export default function DashboardPage() {
                     {formatCrypto(t.amount)} {t.currency || currency}
                   </p>
                   <StatusBadge status={t.status} />
+
+                  {/* Complete pending transaction button for external transfers with pending fee */}
+                  {t.status === 'pending_fee' && t.type === 'external_transfer' && (
+                    <button
+                      onClick={() => navigate('/transfer', { 
+                        state: { pendingTransaction: t } 
+                      })}
+                      className="mt-2 text-xs bg-orange-600 hover:bg-orange-700 text-white px-4 py-1.5 rounded-xl font-medium transition-colors w-full"
+                    >
+                      Complete Transfer
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
