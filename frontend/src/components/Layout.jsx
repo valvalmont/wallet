@@ -47,20 +47,16 @@ export default function Layout() {
 
   const isAdmin = user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
 
-  // NOTE: this is a plain JSX value, not a nested component definition.
-  // Defining it as `const SidebarContent = () => (...)` inside the component
-  // body creates a brand-new component type on every render, which forces
-  // React to unmount/remount the whole sidebar subtree each time Layout
-  // re-renders (route changes, mobile toggle, etc.). Using a JSX variable
-  // instead lets React diff and update it in place.
+  // NOTE: plain JSX value, not a nested component definition — keeps this
+  // subtree from being remounted every time Layout re-renders.
   const sidebarContent = (
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-6">
-        <div className="w-8 h-8 rounded-xl bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
           <Zap size={15} className="text-white fill-white" />
         </div>
-        <span className="font-bold text-[15px] tracking-tight text-gray-900">Valmont</span>
+        <span className="font-bold text-[15px] tracking-tight text-white">Valmont</span>
       </div>
 
       {/* Nav */}
@@ -73,20 +69,20 @@ export default function Layout() {
             className={({ isActive }) =>
               `group flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13.5px] font-medium transition-all duration-150 ${
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700'
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-orange-950/50 text-orange-400 border border-orange-800/60'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
               }`
             }
           >
             {({ isActive }) => (
               <>
                 <span className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-150 ${
-                  isActive ? 'bg-indigo-600 shadow-md shadow-indigo-500/25' : 'bg-transparent group-hover:bg-gray-100'
+                  isActive ? 'bg-gradient-to-br from-orange-500 to-amber-500 shadow-md shadow-orange-500/25' : 'bg-transparent group-hover:bg-slate-700'
                 }`}>
-                  <Icon size={14} className={isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-600'} />
+                  <Icon size={14} className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'} />
                 </span>
                 {label}
-                {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500" />}
+                {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-400" />}
               </>
             )}
           </NavLink>
@@ -100,20 +96,20 @@ export default function Layout() {
             className={({ isActive }) =>
               `group flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13.5px] font-medium transition-all duration-150 ${
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700'
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-orange-950/50 text-orange-400 border border-orange-800/60'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
               }`
             }
           >
             {({ isActive }) => (
               <>
                 <span className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-150 ${
-                  isActive ? 'bg-indigo-600 shadow-md shadow-indigo-500/25' : 'bg-transparent group-hover:bg-gray-100'
+                  isActive ? 'bg-gradient-to-br from-orange-500 to-amber-500 shadow-md shadow-orange-500/25' : 'bg-transparent group-hover:bg-slate-700'
                 }`}>
-                  <ShieldCheck size={14} className={isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-600'} />
+                  <ShieldCheck size={14} className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'} />
                 </span>
                 Admin Panel
-                {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500" />}
+                {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-400" />}
               </>
             )}
           </NavLink>
@@ -121,22 +117,22 @@ export default function Layout() {
       </nav>
 
       {/* User Info & Logout */}
-      <div className="px-3 pb-5 pt-3 border-t border-gray-100 mt-4 space-y-1">
+      <div className="px-3 pb-5 pt-3 border-t border-slate-800 mt-4 space-y-1">
         <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-400 to-indigo-600 flex items-center justify-center text-white font-semibold text-[10px] shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-semibold text-[10px] shrink-0">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[12px] font-semibold text-gray-800 truncate leading-tight">{user?.fullName}</p>
-            <p className="text-[11px] text-gray-400 truncate leading-tight">{user?.email}</p>
+            <p className="text-[12px] font-semibold text-white truncate leading-tight">{user?.fullName}</p>
+            <p className="text-[11px] text-slate-400 truncate leading-tight">{user?.email}</p>
           </div>
         </div>
         <button
           onClick={handleLogout}
-          className="flex w-full items-center gap-3 px-3 py-2.5 rounded-xl text-[13.5px] font-medium text-red-500 hover:bg-red-50 transition-colors"
+          className="flex w-full items-center gap-3 px-3 py-2.5 rounded-xl text-[13.5px] font-medium text-red-400 hover:bg-red-950 transition-colors"
         >
-          <span className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center">
-            <LogOut size={14} className="text-red-500" />
+          <span className="w-7 h-7 rounded-lg bg-red-950 border border-red-800 flex items-center justify-center">
+            <LogOut size={14} className="text-red-400" />
           </span>
           Sign out
         </button>
@@ -145,31 +141,31 @@ export default function Layout() {
   );
 
   return (
-    <div className="h-screen bg-gray-50/60 overflow-hidden">
+    <div className="h-screen bg-slate-950 overflow-hidden">
       {/* Desktop sidebar — fixed so it never moves with page content */}
-      <aside className="hidden md:flex flex-col fixed inset-y-0 left-0 z-30 w-56 bg-white border-r border-gray-100">
+      <aside className="hidden md:flex flex-col fixed inset-y-0 left-0 z-30 w-56 bg-slate-900 border-r border-slate-800">
         {sidebarContent}
       </aside>
 
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* Mobile drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-56 bg-white border-r border-gray-100 transform transition-transform duration-200 md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-56 bg-slate-900 border-r border-slate-800 transform transition-transform duration-200 md:hidden ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <button
           onClick={() => setMobileOpen(false)}
-          className="absolute top-4 right-3 p-1.5 rounded-lg hover:bg-gray-100"
+          className="absolute top-4 right-3 p-1.5 rounded-lg hover:bg-slate-800"
         >
-          <X size={16} className="text-gray-500" />
+          <X size={16} className="text-slate-400" />
         </button>
         {sidebarContent}
       </aside>
@@ -177,18 +173,18 @@ export default function Layout() {
       {/* Main column, offset by sidebar width on desktop */}
       <div className="h-full flex flex-col md:pl-56">
         {/* Mobile topbar — sticky so it stays visible while scrolling */}
-        <header className="md:hidden sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-white border-b border-gray-100">
+        <header className="md:hidden sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-slate-900 border-b border-slate-800">
           <button
             onClick={() => setMobileOpen(true)}
-            className="p-2 rounded-lg hover:bg-gray-100"
+            className="p-2 rounded-lg hover:bg-slate-800"
           >
-            <Menu size={18} className="text-gray-600" />
+            <Menu size={18} className="text-slate-300" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center">
+            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center">
               <Zap size={12} className="text-white fill-white" />
             </div>
-            <span className="font-bold text-sm text-gray-900">Valmont</span>
+            <span className="font-bold text-sm text-white">Valmont</span>
           </div>
         </header>
 
