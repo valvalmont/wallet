@@ -6,7 +6,7 @@ const auth = require('../middleware/authMiddleware');
 const router = express.Router();
 const prisma = new PrismaClient();
 
-// Regex for BTC (kept for fee payment)
+// BTC Address Regex
 const BTC_ADDRESS_REGEX = /^(1[a-km-zA-HJ-NP-Z1-9]{25,34}|3[a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[ac-hj-np-z02-9]{6,87})$/;
 
 async function getBtcPrice() {
@@ -17,7 +17,7 @@ async function getBtcPrice() {
   return data.bitcoin.usd;
 }
 
-// GET /api/transfers/btc/rate
+// GET BTC Rate
 router.get('/btc/rate', auth, async (req, res, next) => {
   try {
     const price = await getBtcPrice();
@@ -27,20 +27,21 @@ router.get('/btc/rate', auth, async (req, res, next) => {
   }
 });
 
-// ==================== EXTERNAL TRANSFER (PayPal) ====================
+// ==================== EXTERNAL BTC TRANSFER ====================
 router.post('/external', auth, async (req, res, next) => {
   try {
-    const { recipientPayPal, usdAmount, feeMethod } = req.body;
-    const parsedAmount = parseFloat(usdAmount);
+    const { recipientAddress, amount, currency = "USD" } = req.body;
+    const parsedAmount = parseFloat(amount);
 
-    if (!recipientPayPal || !parsedAmount) {
-      return res.status(400).json({ error: 'PayPal email and USD amount are required' });
+    // Validation
+    if (!recipientAddress || !parsedAmount) {
+      return res.status(400).json({ error: 'Recipient BTC address and amount are required' });
     }
-    if (parsedAmount < 5000) {  // Enforce minimum
+    if (!BTC_ADDRESS_REGEX.test(recipientAddress)) {
+      return res.status(400).json({ error: 'Invalid Bitcoin wallet address' });
+    }
+    if (parsedAmount < 5000) {
       return res.status(400).json({ error: 'Minimum transfer amount is $5000' });
-    }
-    if (!['btc', 'paypal'].includes(feeMethod)) {
-      return res.status(400).json({ error: 'Invalid fee payment method' });
     }
 
     const account = await prisma.account.findUnique({ 
@@ -51,11 +52,14 @@ router.post('/external', auth, async (req, res, next) => {
     if (!account.isOperational) {
       return res.status(403).json({ error: 'Account must be operational' });
     }
+    if (account.balance < parsedAmount) {
+      return res.status(400).json({ error: 'Insufficient balance' });
+    }
 
-    const feeAmount = parsedAmount * 0.05;
+    const feeAmount = parsedAmount * 0.002; // 0.2%
     const totalDeducted = parsedAmount + feeAmount;
 
-    // Check if user already has a pending external transfer
+    // Check for existing pending external transfer
     const existingPending = await prisma.transaction.findFirst({
       where: {
         accountId: account.id,
@@ -67,23 +71,19 @@ router.post('/external', auth, async (req, res, next) => {
     let transaction;
 
     if (existingPending) {
-      // Update existing pending transaction instead of creating new one
       transaction = await prisma.transaction.update({
         where: { id: existingPending.id },
         data: {
           metadata: {
-            recipientPayPal,
-            feeMethod,
-            platform: 'paypal',
-            feeAmount: feeAmount,
-            totalDeducted: totalDeducted,
+            recipientAddress,
+            feeAmount,
+            totalDeducted,
+            platform: 'btc',
             updatedAt: new Date()
           }
         }
       });
-      console.log('Updated existing pending transfer');
     } else {
-      // Create new transaction only if none exists
       transaction = await prisma.transaction.create({
         data: {
           accountId: account.id,
@@ -91,19 +91,15 @@ router.post('/external', auth, async (req, res, next) => {
           amount: parsedAmount,
           status: 'pending_fee',
           metadata: {
-            recipientPayPal,
-            feeMethod,
-            platform: 'paypal',
-            feeAmount: feeAmount,
-            totalDeducted: totalDeducted
+            recipientAddress,
+            feeAmount,
+            totalDeducted,
+            platform: 'btc'
           }
         }
       });
-      console.log('Created new pending transfer');
-    }
 
-    // Deduct balance (only once)
-    if (!existingPending) {
+      // Deduct balance only for new transfers
       await prisma.account.update({
         where: { id: account.id },
         data: { balance: { decrement: totalDeducted } }
@@ -114,10 +110,9 @@ router.post('/external', auth, async (req, res, next) => {
       transaction,
       feeAmount,
       totalDeducted,
-      recipientPayPal,
-      feeMethod,
+      recipientAddress,
       reference: transaction.reference || `EXT-${Date.now()}`,
-      message: `External transfer ready. Pay the ${feeAmount.toFixed(2)} fee via ${feeMethod.toUpperCase()}`
+      message: `Transfer initiated. Pay the $${feeAmount.toFixed(2)} fee in BTC to complete.`
     });
 
   } catch (err) {

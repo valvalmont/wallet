@@ -109,14 +109,18 @@ export default function TransferPage() {
     setError('');
     setLoading(true);
     try {
-      const { data } = await api.post('/transfers/external', {
+      const payload = {
         recipientAddress: recipientAddress.trim(),
-        usdAmount: parsedAmount,
-        feeMethod,
-      });
+        amount: parsedAmount,        // Must be "amount" now
+        currency: "USD",
+      };
+
+      const { data } = await api.post('/transfers/external', payload);
+      
       setPendingTransfer(data);
       setExternalStep('fee-payment');
     } catch (err) {
+      console.error(err.response?.data);
       setError(err.response?.data?.error || 'Failed to initiate transfer');
     } finally {
       setLoading(false);
