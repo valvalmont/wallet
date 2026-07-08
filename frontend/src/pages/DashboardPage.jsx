@@ -349,6 +349,75 @@ export default function DashboardPage() {
           </div>
         )}
       </div>
+
+            {/* Crypto Assets */}
+      <div className="bg-[#0b1220] border border-white/10 rounded-3xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
+          <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+            <Bitcoin size={16} className="text-orange-400" />
+            Crypto Assets
+          </h2>
+          <span className="text-xs text-slate-500">Holdings</span>
+        </div>
+
+        <div className="divide-y divide-white/10">
+          {/* Bitcoin */}
+          <div className="flex items-center justify-between px-5 py-5 hover:bg-white/5 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-orange-500/10 rounded-2xl flex items-center justify-center">
+                <Bitcoin size={20} className="text-orange-400" />
+              </div>
+              <div>
+                <p className="font-semibold text-white">Bitcoin</p>
+                <p className="text-xs text-slate-500">BTC</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="font-semibold text-white">0.8421 BTC</p>
+              <p className="text-sm text-emerald-400">$78,942.35</p>
+            </div>
+          </div>
+
+          {/* Ethereum */}
+          <div className="flex items-center justify-between px-5 py-5 hover:bg-white/5 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 font-bold text-xl">Ξ</div>
+              <div>
+                <p className="font-semibold text-white">Ethereum</p>
+                <p className="text-xs text-slate-500">ETH</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="font-semibold text-white">4.215 ETH</p>
+              <p className="text-sm text-slate-400">$10,845.20</p>
+            </div>
+          </div>
+
+          {/* USDT */}
+          <div className="flex items-center justify-between px-5 py-5 hover:bg-white/5 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 font-bold">₮</div>
+              <div>
+                <p className="font-semibold text-white">Tether</p>
+                <p className="text-xs text-slate-500">USDT</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="font-semibold text-white">2,450.00 USDT</p>
+              <p className="text-sm text-slate-400">$2,450.00</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="px-5 py-4 text-center border-t border-white/10">
+          <Link 
+            to="/assets" 
+            className="text-xs text-orange-400 hover:text-orange-300 font-medium inline-flex items-center gap-1"
+          >
+            View All Assets <ArrowRight size={12} />
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
