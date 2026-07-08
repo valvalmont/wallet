@@ -1,0 +1,49 @@
+# ── Dependencies ──────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ── Environment / secrets ─────────────────────────────
+.env
+.env.local
+.env.development
+.env.production
+# Keep example files so others can bootstrap
+!.env.example
+
+# ── Build output ──────────────────────────────────────
+dist/
+build/
+.vite/
+out/
+
+# ── Prisma generated client ───────────────────────────
+# The generated client is rebuilt via `prisma generate`
+# so there's no need to commit it
+backend/node_modules/.prisma/
+
+# ── Logs ─────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── OS / editor artifacts ─────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ── Test / coverage ───────────────────────────────────
+coverage/
+.nyc_output/
+
+# ── Misc ──────────────────────────────────────────────
+*.local
+.cache/

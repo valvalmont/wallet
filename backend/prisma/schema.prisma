@@ -1,0 +1,65 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String       @id @default(uuid())
+  email              String       @unique
+  password           String
+  fullName           String
+  mustChangePassword Boolean      @default(true)
+  createdAt          DateTime     @default(now())
+  account            Account?
+  accessLinks        AccessLink[]
+}
+
+model AccessLink {
+  id        String    @id @default(uuid())
+  token     String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}
+
+model Account {
+  id            String        @id @default(uuid())
+  userId        String        @unique
+  user          User          @relation(fields: [userId], references: [id])
+  balance       Float         @default(0.00)
+  currency      String        @default("USD")
+  isOperational Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  transactions  Transaction[]
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  accountId   String
+  account     Account  @relation(fields: [accountId], references: [id])
+  type        String
+  amount      Float
+  btcAddress  String?
+  btcAmount   Float?
+  btcRate     Float?
+  status      String   @default("pending")
+  reference   String   @default(uuid())
+  metadata    Json?
+  createdAt   DateTime @default(now())
+}
+
+model GuarantorToken {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  label     String?
+  isUsed    Boolean  @default(false)
+  usedByEmail String?
+  createdAt DateTime @default(now())
+}
