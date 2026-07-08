@@ -199,7 +199,7 @@ export default function TransferPage() {
               
               <div className="h-px bg-white/10 my-3" />
               
-              <Row label="Recipient Address" value={pendingTransfer.recipientAddress ?? recipientAddress} mono />
+              <Row label="Recipient Address" value={pendingTransfer.metadata?.recipientAddress ?? recipientAddress} mono />
               <Row label="Reference" value={pendingTransfer.reference ?? 'PENDING'} mono />
               <Row label="Status" value="Awaiting Fee" pending />
             </div>
@@ -460,17 +460,18 @@ export default function TransferPage() {
   );
 }
 
+// Replace the entire <Row> component at the bottom with this:
 function Row({ label, value, mono, red, bold, pending }) {
   return (
     <div className="flex justify-between py-2.5 border-b border-white/10 last:border-0">
       <span className="text-slate-400">{label}</span>
       <span 
-        className={`text-right break-all ${
+        className={`text-right break-all font-semibold ${
           mono ? 'font-mono text-xs' : ''
         } ${
           red ? 'text-red-400' : ''
         } ${
-          bold ? 'font-bold text-white' : ''
+          bold || !red ? 'text-white' : ''   // ← Main fix: make most values white
         } ${
           pending ? 'text-amber-400 font-medium' : ''
         }`}
